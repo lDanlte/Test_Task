@@ -1,0 +1,12 @@
+.row {
+    margin-top: 20px;
+}
+
+.datepicker {
+    padding: 6px 12px;
+}
+
+.alert {
+    padding: 8px 35px 8px 8px;
+    margin-top: 5px;
+}
