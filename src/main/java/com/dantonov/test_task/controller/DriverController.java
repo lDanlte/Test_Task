@@ -15,6 +15,8 @@ import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class DriverController {
     
+    //Проверка ФИО на корректность
+    private static final Pattern NAME_PATTERN = Pattern.compile("^(([А-Я]{1})([а-я]+) ){2}(([А-Я]{1})([а-я]+)){1}$");
     
     
     @Autowired
@@ -180,6 +184,12 @@ public class DriverController {
                                      dto.getBirthday().getDay());
         } catch (DateTimeException ex) {
             throw new BadRequestException("Неверно задана дата.");
+        }
+        
+        Matcher matcher = NAME_PATTERN.matcher(dto.getFio());
+        
+        if (!matcher.matches()) {
+            throw new BadRequestException("Неверно введено ФИО водителя.");
         }
         
         return new Driver(dto.getId(), dto.getFio(), 
